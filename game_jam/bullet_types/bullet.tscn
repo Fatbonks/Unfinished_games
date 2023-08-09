@@ -1,0 +1,68 @@
+[gd_scene load_steps=10 format=3 uid="uid://d1y3p3x16lcgv"]
+
+[ext_resource type="Script" path="res://bullet_types/bullet.gd" id="1_3ihlp"]
+[ext_resource type="Texture2D" uid="uid://d2o0nfb38wkla" path="res://addons/BulletUpHell/BulletScene/Sprites/Bullet_11.png" id="1_li4lj"]
+[ext_resource type="PackedScene" uid="uid://dfott0q3enf2v" path="res://hurtbox.tscn" id="3_vxhng"]
+
+[sub_resource type="Gradient" id="Gradient_ktghf"]
+offsets = PackedFloat32Array(0.0296296, 1)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_t3xui"]
+gradient = SubResource("Gradient_ktghf")
+
+[sub_resource type="Curve" id="Curve_o7dax"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_vbcyc"]
+curve = SubResource("Curve_o7dax")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_phenh"]
+emission_shape = 1
+emission_sphere_radius = 1.0
+particle_flag_disable_z = true
+direction = Vector3(0, 1, 0)
+spread = 5.0
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 300.0
+initial_velocity_max = 300.0
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+angle_min = -358.3
+angle_max = 151.6
+scale_min = 5.0
+scale_max = 10.0
+scale_curve = SubResource("CurveTexture_vbcyc")
+color = Color(0.54902, 1, 1, 1)
+color_ramp = SubResource("GradientTexture1D_t3xui")
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qpi54"]
+
+[node name="bullet" type="Node2D"]
+scale = Vector2(0.5, 0.5)
+script = ExtResource("1_3ihlp")
+time = 2
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+z_index = -1
+scale = Vector2(1.00277, 1)
+amount = 20
+process_material = SubResource("ParticleProcessMaterial_phenh")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = ExtResource("1_li4lj")
+
+[node name="time_before_despawn" type="Timer" parent="."]
+
+[node name="hurtbox" parent="." instance=ExtResource("3_vxhng")]
+collision_layer = 12
+collision_mask = 12
+attack = 1
+gets_destroyed = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="hurtbox"]
+shape = SubResource("RectangleShape2D_qpi54")
+
+[connection signal="timeout" from="time_before_despawn" to="." method="_on_time_before_despawn_timeout"]

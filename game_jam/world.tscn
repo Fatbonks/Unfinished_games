@@ -1,0 +1,228 @@
+[gd_scene load_steps=24 format=3 uid="uid://cifh45jow874x"]
+
+[ext_resource type="PackedScene" uid="uid://1xjeje5bu0n2" path="res://player.tscn" id="1_n8gup"]
+[ext_resource type="PackedScene" uid="uid://dcf4dahaje0yl" path="res://astroids.tscn" id="2_0gvgm"]
+[ext_resource type="PackedScene" uid="uid://dxwo2252bb3aq" path="res://laser_enemy.tscn" id="3_qr1dn"]
+[ext_resource type="Script" path="res://bg.gd" id="4_6gwua"]
+[ext_resource type="Texture2D" uid="uid://vshk26x7kdg8" path="res://images/parallax-space-backgound.png" id="5_qwgb5"]
+[ext_resource type="Texture2D" uid="uid://dkadkjfv3njt1" path="res://images/parallax-space-stars.png" id="6_ecvao"]
+[ext_resource type="Texture2D" uid="uid://bxadqiglvypod" path="res://images/parallax-space-big-planet.png" id="6_h02g2"]
+[ext_resource type="Texture2D" uid="uid://i7vov2itmonn" path="res://images/BackdropBlackLittleSparkTransparent.png" id="7_3rioh"]
+[ext_resource type="Texture2D" uid="uid://ctktfwll5hbr4" path="res://images/parallax-space-far-planets.png" id="8_5p57h"]
+[ext_resource type="Script" path="res://wave_spawner.gd" id="8_onj66"]
+[ext_resource type="PackedScene" uid="uid://ck10ixbvt5h3s" path="res://enemy/astroid_01.tscn" id="10_mfrli"]
+[ext_resource type="PackedScene" uid="uid://4y802oguqimk" path="res://moving_enemies_hor.tscn" id="12_ribyp"]
+[ext_resource type="PackedScene" uid="uid://bapevumm1fk4n" path="res://moving_enemies_ver.tscn" id="13_0gomi"]
+[ext_resource type="FontFile" uid="uid://diwhkxpvlkkql" path="res://8-bit-hud.ttf" id="14_tnrtg"]
+[ext_resource type="AudioStream" uid="uid://iqu537xrgpln" path="res://music/n-Dimensions (Main Theme - Retro Ver.mp3" id="14_we2a0"]
+
+[sub_resource type="Environment" id="Environment_a24qs"]
+background_mode = 3
+background_energy_multiplier = 1.17
+glow_enabled = true
+glow_intensity = 3.0
+glow_bloom = 0.01
+glow_blend_mode = 0
+
+[sub_resource type="Curve2D" id="Curve2D_1xrki"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, -196, 579, 0, 0, 0, 0, -197, 134)
+}
+point_count = 2
+
+[sub_resource type="Curve2D" id="Curve2D_fb5g0"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 19, -131, 0, 0, 0, 0, 452, -134)
+}
+point_count = 2
+
+[sub_resource type="FontVariation" id="FontVariation_4udm0"]
+base_font = ExtResource("14_tnrtg")
+
+[sub_resource type="Theme" id="Theme_653wg"]
+default_font = SubResource("FontVariation_4udm0")
+
+[sub_resource type="FontVariation" id="FontVariation_yyauu"]
+base_font = ExtResource("14_tnrtg")
+
+[sub_resource type="Theme" id="Theme_swoy4"]
+default_font = SubResource("FontVariation_yyauu")
+
+[sub_resource type="FontVariation" id="FontVariation_phw7v"]
+base_font = ExtResource("14_tnrtg")
+
+[node name="world" type="Node2D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_a24qs")
+
+[node name="player" parent="." instance=ExtResource("1_n8gup")]
+position = Vector2(335, 500)
+
+[node name="bg" type="ParallaxBackground" parent="."]
+script = ExtResource("4_6gwua")
+
+[node name="Sprite2D" type="Sprite2D" parent="bg"]
+modulate = Color(0.368627, 0.368627, 0.368627, 1)
+texture_filter = 1
+position = Vector2(283, 308.5)
+scale = Vector2(4.8125, 4.85625)
+texture = ExtResource("5_qwgb5")
+
+[node name="ColorRect" type="ColorRect" parent="bg"]
+offset_left = -45.0
+offset_top = -4.0
+offset_right = -5.0
+offset_bottom = 36.0
+scale = Vector2(16.925, 16.925)
+color = Color(0, 0, 0, 1)
+
+[node name="ParallaxLayer2" type="ParallaxLayer" parent="bg"]
+motion_scale = Vector2(0.3, 0.3)
+motion_mirroring = Vector2(0, 688.685)
+
+[node name="Sprite2D2" type="Sprite2D" parent="bg/ParallaxLayer2"]
+visible = false
+modulate = Color(1, 1, 1, 0.498039)
+texture_filter = 1
+position = Vector2(240, 389)
+rotation = 1.5708
+scale = Vector2(3, 3)
+texture = ExtResource("6_ecvao")
+
+[node name="Sprite2D3" type="Sprite2D" parent="bg/ParallaxLayer2"]
+modulate = Color(1, 1, 1, 0.0784314)
+texture_filter = 1
+position = Vector2(240, 389)
+rotation = 1.5708
+scale = Vector2(3, 3)
+texture = ExtResource("7_3rioh")
+
+[node name="ParallaxLayer5" type="ParallaxLayer" parent="bg"]
+rotation = 0.226893
+motion_scale = Vector2(0.2, 0.2)
+motion_mirroring = Vector2(0, 688.685)
+
+[node name="Sprite2D2" type="Sprite2D" parent="bg/ParallaxLayer5"]
+texture_filter = 1
+position = Vector2(223, 508)
+scale = Vector2(1.532, 1.382)
+texture = ExtResource("8_5p57h")
+
+[node name="Sprite2D3" type="Sprite2D" parent="bg/ParallaxLayer5"]
+modulate = Color(0.109804, 0.109804, 0.109804, 1)
+texture_filter = 1
+position = Vector2(3.00012, 260)
+scale = Vector2(1.532, 1.382)
+texture = ExtResource("8_5p57h")
+
+[node name="Sprite2D4" type="Sprite2D" parent="bg/ParallaxLayer5"]
+modulate = Color(0.109804, 0.109804, 0.109804, 1)
+texture_filter = 1
+position = Vector2(455, 260)
+scale = Vector2(1.532, 1.382)
+texture = ExtResource("8_5p57h")
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="bg"]
+motion_mirroring = Vector2(0, 688.685)
+
+[node name="Sprite2D2" type="Sprite2D" parent="bg/ParallaxLayer"]
+modulate = Color(0.364706, 0.364706, 0.364706, 1)
+texture_filter = 1
+position = Vector2(232, 410)
+scale = Vector2(1.532, 1.382)
+texture = ExtResource("6_h02g2")
+
+[node name="ParallaxLayer3" type="ParallaxLayer" parent="bg"]
+motion_scale = Vector2(0.7, 0.7)
+motion_mirroring = Vector2(0, 688.685)
+
+[node name="Sprite2D3" type="Sprite2D" parent="bg/ParallaxLayer3"]
+modulate = Color(0.156863, 0.156863, 0.156863, 1)
+texture_filter = 1
+position = Vector2(479, 113)
+scale = Vector2(1.532, 1.382)
+texture = ExtResource("6_h02g2")
+
+[node name="ParallaxLayer4" type="ParallaxLayer" parent="bg"]
+motion_scale = Vector2(0.5, 0.5)
+motion_mirroring = Vector2(0, 688.685)
+
+[node name="Sprite2D2" type="Sprite2D" parent="bg/ParallaxLayer4"]
+modulate = Color(0.109804, 0.109804, 0.109804, 1)
+texture_filter = 1
+position = Vector2(-16, 624)
+scale = Vector2(1.532, 1.382)
+texture = ExtResource("6_h02g2")
+
+[node name="wave_spawner" type="Node2D" parent="."]
+script = ExtResource("8_onj66")
+enemy_list = {
+ExtResource("10_mfrli"): {
+"Cost": 1,
+"spawn_type": 1
+},
+ExtResource("2_0gvgm"): {
+"Cost": 5,
+"spawn_type": 1
+},
+ExtResource("3_qr1dn"): {
+"Cost": 7,
+"spawn_type": 2
+},
+ExtResource("12_ribyp"): {
+"cost": 2,
+"spawn": 1
+},
+ExtResource("13_0gomi"): {
+"cost": 2,
+"spawn": 2
+}
+}
+currwave = 1
+
+[node name="Path2D" type="Path2D" parent="wave_spawner"]
+curve = SubResource("Curve2D_1xrki")
+
+[node name="PathFollow2D" type="PathFollow2D" parent="wave_spawner/Path2D"]
+position = Vector2(-196, 579)
+rotation = -1.57304
+
+[node name="Path2D2" type="Path2D" parent="wave_spawner"]
+curve = SubResource("Curve2D_fb5g0")
+
+[node name="PathFollow2D" type="PathFollow2D" parent="wave_spawner/Path2D2"]
+position = Vector2(19, -131)
+rotation = -0.0069283
+
+[node name="Timer" type="Timer" parent="wave_spawner"]
+one_shot = true
+
+[node name="Button" type="Button" parent="wave_spawner"]
+visible = false
+offset_left = 199.0
+offset_top = 426.0
+offset_right = 300.0
+offset_bottom = 461.0
+size_flags_horizontal = 4
+theme = SubResource("Theme_653wg")
+text = "Start"
+metadata/_edit_use_anchors_ = true
+
+[node name="TextEdit" type="TextEdit" parent="wave_spawner"]
+visible = false
+offset_left = 185.0
+offset_top = 350.0
+offset_right = 313.0
+offset_bottom = 390.0
+theme = SubResource("Theme_swoy4")
+theme_override_fonts/font = SubResource("FontVariation_phw7v")
+text = "Wave  1"
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("14_we2a0")
+volume_db = -10.0
+pitch_scale = 0.5
+autoplay = true
+
+[connection signal="timeout" from="wave_spawner/Timer" to="wave_spawner" method="_on_timer_timeout"]

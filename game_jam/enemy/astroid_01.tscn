@@ -1,0 +1,59 @@
+[gd_scene load_steps=4 format=3 uid="uid://ck10ixbvt5h3s"]
+
+[ext_resource type="Script" path="res://enemy/astroid_01.gd" id="1_31ram"]
+[ext_resource type="PackedScene" uid="uid://ho660506fvf7" path="res://hitbox.tscn" id="2_a2din"]
+[ext_resource type="PackedScene" uid="uid://dyqls3dmoaky6" path="res://health_box.tscn" id="3_7ym7v"]
+
+[node name="astroid_01" type="CharacterBody2D"]
+position = Vector2(75, 58)
+collision_layer = 4
+collision_mask = 4
+script = ExtResource("1_31ram")
+metadata/_edit_group_ = true
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+scale = Vector2(0.751, 0.754)
+polygon = PackedVector2Array(-4, -12, 8, -12, 13, -8, 14, 3, 9, 10, -7, 9, -10, 4, -12, -6)
+
+[node name="Polygon2D" type="Polygon2D" parent="."]
+color = Color(0.537255, 0.537255, 0.537255, 1)
+polygon = PackedVector2Array(-4, -12, -12, -6, -10, 4, -7, 9, 9, 10, 14, 3, 13, -8, 8, -12)
+
+[node name="Polygon2D2" type="Polygon2D" parent="Polygon2D"]
+position = Vector2(-1, -1)
+color = Color(0.294118, 0.294118, 0.294118, 1)
+polygon = PackedVector2Array(-3, -4, -6, -3, -8, -2, -7, 0, -5, 2, -2, 0, 0, -3, -3, -3)
+
+[node name="Polygon2D3" type="Polygon2D" parent="Polygon2D"]
+position = Vector2(6, 5)
+color = Color(0.294118, 0.294118, 0.294118, 1)
+polygon = PackedVector2Array(-3, -4, -6, -3, -8, -2, -7, 0, -5, 2, -2, 0, 0, -3, -3, -3)
+
+[node name="Polygon2D4" type="Polygon2D" parent="Polygon2D"]
+position = Vector2(12, -4)
+color = Color(0.294118, 0.294118, 0.294118, 1)
+polygon = PackedVector2Array(-3, -4, -6, -3, -8, -2, -7, 0, -5, 2, -2, 0, 0, -3, -3, -3)
+
+[node name="Polygon2D5" type="Polygon2D" parent="Polygon2D"]
+position = Vector2(3, -7)
+color = Color(0.294118, 0.294118, 0.294118, 1)
+polygon = PackedVector2Array(-3, -4, -6, -3, -8, -2, -7, 0, -5, 2, -2, 0, 0, -3, -3, -3)
+
+[node name="Hitbox" parent="." node_paths=PackedStringArray("health") groups=["enemy"] instance=ExtResource("2_a2din")]
+collision_layer = 8
+health = NodePath("../Health_box")
+
+[node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="Hitbox"]
+scale = Vector2(0.995887, 1)
+polygon = PackedVector2Array(-4, -12, 8, -12, 13, -8, 14, 3, 9, 10, -7, 9, -10, 4, -12, -6)
+
+[node name="Health_box" parent="." node_paths=PackedStringArray("main_object", "sprite", "hitbox") instance=ExtResource("3_7ym7v")]
+main_object = NodePath("..")
+sprite = NodePath("../Polygon2D")
+hitbox = NodePath("../Hitbox")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+position = Vector2(1.5, -2.5)
+scale = Vector2(1.35, 1.25)
+
+[connection signal="screen_entered" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_entered"]

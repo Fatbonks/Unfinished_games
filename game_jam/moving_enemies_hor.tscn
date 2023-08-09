@@ -1,0 +1,53 @@
+[gd_scene load_steps=7 format=3 uid="uid://4y802oguqimk"]
+
+[ext_resource type="Script" path="res://moving_enemies_hor.gd" id="1_wdr7g"]
+[ext_resource type="PackedScene" uid="uid://ho660506fvf7" path="res://hitbox.tscn" id="2_musyr"]
+[ext_resource type="PackedScene" uid="uid://dyqls3dmoaky6" path="res://health_box.tscn" id="3_m6i3v"]
+[ext_resource type="PackedScene" uid="uid://dfott0q3enf2v" path="res://hurtbox.tscn" id="4_tmiyn"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_etbeu"]
+size = Vector2(16, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xgu5y"]
+size = Vector2(20, 18)
+
+[node name="Moving_enemies_hor" type="CharacterBody2D"]
+collision_layer = 4
+collision_mask = 4
+script = ExtResource("1_wdr7g")
+
+[node name="Polygon2D" type="Polygon2D" parent="."]
+position = Vector2(1, -11)
+color = Color(0, 1, 1, 1)
+polygon = PackedVector2Array(-12, 2, -12, 20, 8, 20, 8, 2)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-1, 0)
+shape = SubResource("RectangleShape2D_etbeu")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+position = Vector2(0, 3)
+scale = Vector2(9.45, 10.25)
+
+[node name="Hitbox" parent="." node_paths=PackedStringArray("health") groups=["enemy"] instance=ExtResource("2_musyr")]
+collision_layer = 8
+health = NodePath("../Health_box")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+position = Vector2(-1, 0)
+shape = SubResource("RectangleShape2D_xgu5y")
+
+[node name="Health_box" parent="." node_paths=PackedStringArray("main_object", "sprite", "hitbox") instance=ExtResource("3_m6i3v")]
+main_object = NodePath("..")
+sprite = NodePath("../Polygon2D")
+hitbox = NodePath("../Hitbox")
+
+[node name="hurtbox" parent="." instance=ExtResource("4_tmiyn")]
+attack = 1
+gets_destroyed = true
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="hurtbox"]
+position = Vector2(-1, 0)
+shape = SubResource("RectangleShape2D_xgu5y")
+
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]

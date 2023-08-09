@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://dyqls3dmoaky6"]
+
+[ext_resource type="Script" path="res://Health_box.gd" id="1_y5sjb"]
+[ext_resource type="AudioStream" uid="uid://be6kkjad8vqlf" path="res://music/explosion(1).wav" id="2_4eb03"]
+
+[node name="Health_box" type="Node2D"]
+script = ExtResource("1_y5sjb")
+health = 1
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("2_4eb03")
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
